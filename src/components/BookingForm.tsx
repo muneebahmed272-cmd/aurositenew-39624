@@ -50,6 +50,24 @@ const BookingForm = ({ children, defaultService }: BookingFormProps) => {
 
       if (error) throw error;
 
+      // Send email notification
+      try {
+        await supabase.functions.invoke("send-booking-notification", {
+          body: {
+            customerName: formData.customerName,
+            email: formData.email,
+            phone: formData.phone,
+            preferredDate: formData.preferredDate,
+            preferredTime: formData.preferredTime,
+            serviceType: formData.serviceType,
+            message: formData.message,
+          },
+        });
+      } catch (emailError) {
+        console.error("Failed to send email notification:", emailError);
+        // Don't fail the booking if email fails
+      }
+
       toast({
         title: "Booking Request Submitted!",
         description: "We'll contact you within 24 hours to confirm your appointment.",
