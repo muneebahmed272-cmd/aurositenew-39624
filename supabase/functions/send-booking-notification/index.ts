@@ -29,8 +29,7 @@ const handler = async (req: Request): Promise<Response> => {
     
     console.log("Sending booking notification for:", bookingData.customerName);
 
-    // TODO: Replace with your actual email address
-    const adminEmail = "YOUR_EMAIL@example.com";
+    const adminEmail = "muneebahmed272@outlook.com";
 
     const emailResponse = await resend.emails.send({
       from: "Hair & Scalp Treatments <onboarding@resend.dev>",
