@@ -14,48 +14,7 @@ export type Database = {
   }
   public: {
     Tables: {
-      bookings: {
-        Row: {
-          created_at: string
-          customer_name: string
-          email: string
-          id: string
-          message: string | null
-          phone: string | null
-          preferred_date: string
-          preferred_time: string
-          service_type: string
-          status: string | null
-          updated_at: string
-        }
-        Insert: {
-          created_at?: string
-          customer_name: string
-          email: string
-          id?: string
-          message?: string | null
-          phone?: string | null
-          preferred_date: string
-          preferred_time: string
-          service_type: string
-          status?: string | null
-          updated_at?: string
-        }
-        Update: {
-          created_at?: string
-          customer_name?: string
-          email?: string
-          id?: string
-          message?: string | null
-          phone?: string | null
-          preferred_date?: string
-          preferred_time?: string
-          service_type?: string
-          status?: string | null
-          updated_at?: string
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Views: {
       [_ in never]: never
