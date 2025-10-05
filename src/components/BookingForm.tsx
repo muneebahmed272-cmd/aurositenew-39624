@@ -8,6 +8,34 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Calendar, Clock, Mail, Phone, User, MessageSquare } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { z } from "zod";
+
+// Input validation schema
+const bookingSchema = z.object({
+  customerName: z.string()
+    .trim()
+    .min(2, "Name must be at least 2 characters")
+    .max(100, "Name must be less than 100 characters")
+    .regex(/^[a-zA-Z\s'-]+$/, "Name can only contain letters, spaces, hyphens, and apostrophes"),
+  email: z.string()
+    .trim()
+    .email("Invalid email address")
+    .max(255, "Email must be less than 255 characters"),
+  phone: z.string()
+    .trim()
+    .min(10, "Phone number must be at least 10 digits")
+    .max(20, "Phone number must be less than 20 characters")
+    .regex(/^[0-9\s()+-]+$/, "Phone number can only contain digits and basic formatting characters"),
+  preferredDate: z.string()
+    .min(1, "Please select a date"),
+  preferredTime: z.string()
+    .min(1, "Please select a time"),
+  serviceType: z.string()
+    .min(1, "Please select a treatment"),
+  message: z.string()
+    .max(2000, "Message must be less than 2000 characters")
+    .optional(),
+});
 
 interface BookingFormProps {
   children: React.ReactNode;
@@ -38,34 +66,51 @@ const BookingForm = ({ children, defaultService }: BookingFormProps) => {
     setIsSubmitting(true);
 
     try {
+      // Validate input data
+      const validationResult = bookingSchema.safeParse(formData);
+      
+      if (!validationResult.success) {
+        const errors = validationResult.error.errors;
+        toast({
+          title: "Validation Error",
+          description: errors[0].message,
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Sanitize data by trimming whitespace
+      const sanitizedData = {
+        customerName: formData.customerName.trim(),
+        email: formData.email.trim().toLowerCase(),
+        phone: formData.phone.trim(),
+        preferredDate: formData.preferredDate,
+        preferredTime: formData.preferredTime,
+        serviceType: formData.serviceType,
+        message: formData.message?.trim() || "",
+      };
+
       const { error } = await supabase.from("bookings").insert({
-        customer_name: formData.customerName,
-        email: formData.email,
-        phone: formData.phone || null,
-        preferred_date: formData.preferredDate,
-        preferred_time: formData.preferredTime,
-        service_type: formData.serviceType,
-        message: formData.message || null,
+        customer_name: sanitizedData.customerName,
+        email: sanitizedData.email,
+        phone: sanitizedData.phone || null,
+        preferred_date: sanitizedData.preferredDate,
+        preferred_time: sanitizedData.preferredTime,
+        service_type: sanitizedData.serviceType,
+        message: sanitizedData.message || null,
       });
 
       if (error) throw error;
 
-      // Send email notification
+      // Send email notification with sanitized data
       try {
         await supabase.functions.invoke("send-booking-notification", {
-          body: {
-            customerName: formData.customerName,
-            email: formData.email,
-            phone: formData.phone,
-            preferredDate: formData.preferredDate,
-            preferredTime: formData.preferredTime,
-            serviceType: formData.serviceType,
-            message: formData.message,
-          },
+          body: sanitizedData,
         });
       } catch (emailError) {
-        console.error("Failed to send email notification:", emailError);
         // Don't fail the booking if email fails
+        console.error("Failed to send email notification");
       }
 
       toast({

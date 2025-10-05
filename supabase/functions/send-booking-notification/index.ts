@@ -8,6 +8,45 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Simple rate limiting using in-memory store
+// Tracks IP addresses and their request timestamps
+const rateLimitStore = new Map<string, number[]>();
+const RATE_LIMIT_WINDOW_MS = 60000; // 1 minute
+const MAX_REQUESTS_PER_WINDOW = 3; // 3 requests per minute
+
+function getRateLimitKey(req: Request): string {
+  // Use IP address for rate limiting
+  const forwarded = req.headers.get("x-forwarded-for");
+  return forwarded ? forwarded.split(",")[0].trim() : "unknown";
+}
+
+function isRateLimited(key: string): boolean {
+  const now = Date.now();
+  const requests = rateLimitStore.get(key) || [];
+  
+  // Remove old requests outside the window
+  const recentRequests = requests.filter(time => now - time < RATE_LIMIT_WINDOW_MS);
+  
+  if (recentRequests.length >= MAX_REQUESTS_PER_WINDOW) {
+    return true;
+  }
+  
+  // Add current request
+  recentRequests.push(now);
+  rateLimitStore.set(key, recentRequests);
+  
+  // Cleanup old entries periodically
+  if (rateLimitStore.size > 1000) {
+    for (const [k, times] of rateLimitStore.entries()) {
+      if (times.every(t => now - t > RATE_LIMIT_WINDOW_MS)) {
+        rateLimitStore.delete(k);
+      }
+    }
+  }
+  
+  return false;
+}
+
 interface BookingNotificationRequest {
   customerName: string;
   email: string;
@@ -25,7 +64,33 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+    // Rate limiting check
+    const rateLimitKey = getRateLimitKey(req);
+    if (isRateLimited(rateLimitKey)) {
+      console.warn(`Rate limit exceeded for: ${rateLimitKey}`);
+      return new Response(
+        JSON.stringify({ 
+          error: "Too many booking requests. Please try again in a minute." 
+        }),
+        {
+          status: 429,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
     const bookingData: BookingNotificationRequest = await req.json();
+    
+    // Input validation
+    if (!bookingData.customerName || !bookingData.email || !bookingData.serviceType) {
+      return new Response(
+        JSON.stringify({ error: "Missing required fields" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
     
     console.log("Sending booking notification for:", bookingData.customerName);
 
