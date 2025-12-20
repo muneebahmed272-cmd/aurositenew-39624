@@ -2,14 +2,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Navigation from "@/components/Navigation";
-import BookingForm from "@/components/BookingForm";
+import EmbeddedBookingForm from "@/components/EmbeddedBookingForm";
 import { CheckCircle, Star, Crown, Gift } from "lucide-react";
 
 const Prices = () => {
   return (
     <div className="min-h-screen">
       <Navigation />
-      
+
       {/* Hero Section */}
       <section className="pt-16 pb-20 hero-gradient text-white">
         <div className="container mx-auto px-4 py-20">
@@ -73,9 +73,9 @@ const Prices = () => {
                   </div>
                 </div>
                 <div className="mt-auto">
-                  <BookingForm defaultService="PRP Therapy">
+                  <a href="#booking-form">
                     <Button className="w-full">Contact Now</Button>
-                  </BookingForm>
+                  </a>
                 </div>
               </CardContent>
             </Card>
@@ -113,9 +113,9 @@ const Prices = () => {
                   </div>
                 </div>
                 <div className="mt-auto">
-                  <BookingForm defaultService="PRP + Biotin Combo">
+                  <a href="#booking-form">
                     <Button className="w-full">Contact Now</Button>
-                  </BookingForm>
+                  </a>
                 </div>
               </CardContent>
             </Card>
@@ -145,9 +145,9 @@ const Prices = () => {
                   </div>
                 </div>
                 <div className="mt-auto">
-                  <BookingForm defaultService="Microneedling">
+                  <a href="#booking-form">
                     <Button className="w-full">Contact Now</Button>
-                  </BookingForm>
+                  </a>
                 </div>
               </CardContent>
             </Card>
@@ -183,9 +183,9 @@ const Prices = () => {
                   </div>
                 </div>
                 <div className="mt-auto">
-                  <BookingForm defaultService="Vitamin Injections">
+                  <a href="#booking-form">
                     <Button className="w-full">Contact Now</Button>
-                  </BookingForm>
+                  </a>
                 </div>
               </CardContent>
             </Card>
@@ -243,9 +243,9 @@ const Prices = () => {
                   </ul>
                 </div>
                 <div className="mt-auto">
-                  <BookingForm defaultService="Starter Taster Package">
+                  <a href="#booking-form">
                     <Button className="w-full">Choose Starter Package</Button>
-                  </BookingForm>
+                  </a>
                 </div>
               </CardContent>
             </Card>
@@ -289,9 +289,9 @@ const Prices = () => {
                   </ul>
                 </div>
                 <div className="mt-auto">
-                  <BookingForm defaultService="Transformation Pack">
+                  <a href="#booking-form">
                     <Button className="w-full">Choose Transformation Pack</Button>
-                  </BookingForm>
+                  </a>
                 </div>
               </CardContent>
             </Card>
@@ -335,9 +335,9 @@ const Prices = () => {
                   </ul>
                 </div>
                 <div className="mt-auto">
-                  <BookingForm defaultService="Ultimate Growth Pack">
+                  <a href="#booking-form">
                     <Button className="w-full">Choose Ultimate Pack</Button>
-                  </BookingForm>
+                  </a>
                 </div>
               </CardContent>
             </Card>
@@ -352,7 +352,7 @@ const Prices = () => {
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Limited-Time Launch Discounts</h2>
             <p className="text-xl text-white/90 mb-8">Extra savings on top of our already discounted packages!</p>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             <div className="bg-white/10 rounded-lg p-6 backdrop-blur-sm text-center">
               <div className="text-4xl font-bold text-secondary mb-2">20%</div>
@@ -378,9 +378,11 @@ const Prices = () => {
           </div>
 
           <div className="text-center mt-12">
-            <Button size="lg" className="bg-white text-primary hover:bg-white/90 text-lg px-8 py-4">
-              Claim Your Discount Now
-            </Button>
+            <a href="#booking-form">
+              <Button size="lg" className="bg-white text-primary hover:bg-white/90 text-lg px-8 py-4">
+                Claim Your Discount Now
+              </Button>
+            </a>
             <p className="text-white/80 text-sm mt-4">
               *Discounts valid for new clients only. Limited time offer. Terms and conditions apply.
             </p>
@@ -388,8 +390,24 @@ const Prices = () => {
         </div>
       </section>
 
+      {/* Booking Form Section */}
+      <section id="booking-form" className="py-20 bg-background">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <Badge className="mb-4 bg-primary text-primary-foreground">📅 Book Now</Badge>
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              Book Your Consultation
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Ready to start your wellness journey? Fill in your details below
+            </p>
+          </div>
+          <EmbeddedBookingForm />
+        </div>
+      </section>
+
       {/* FAQ Section */}
-      <section className="py-20 bg-background">
+      <section className="py-20 bg-primary-light">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
