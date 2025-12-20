@@ -25,7 +25,7 @@ const EmbeddedBookingForm = () => {
         src="https://api.3starstudios.co.uk/widget/form/ecSWyteALvoTjCvd2wRT"
         style={{
           width: "100%",
-          height: "866px",
+          height: "100%",
           border: "none",
           borderRadius: "3px",
         }}
