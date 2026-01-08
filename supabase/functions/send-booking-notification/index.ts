@@ -57,6 +57,17 @@ interface BookingNotificationRequest {
   message?: string;
 }
 
+// HTML escaping utility to prevent XSS in email templates
+function escapeHtml(unsafe: string): string {
+  if (!unsafe) return '';
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -99,7 +110,7 @@ const handler = async (req: Request): Promise<Response> => {
     const emailResponse = await resend.emails.send({
       from: "Hair & Scalp Treatments <onboarding@resend.dev>",
       to: [adminEmail],
-      subject: `New Booking: ${bookingData.serviceType} - ${bookingData.customerName}`,
+      subject: `New Booking: ${escapeHtml(bookingData.serviceType)} - ${escapeHtml(bookingData.customerName)}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #333; border-bottom: 3px solid #4F46E5; padding-bottom: 10px;">
@@ -108,22 +119,22 @@ const handler = async (req: Request): Promise<Response> => {
           
           <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h2 style="color: #4F46E5; margin-top: 0;">Customer Information</h2>
-            <p><strong>Name:</strong> ${bookingData.customerName}</p>
-            <p><strong>Email:</strong> <a href="mailto:${bookingData.email}">${bookingData.email}</a></p>
-            <p><strong>Phone:</strong> <a href="tel:${bookingData.phone}">${bookingData.phone}</a></p>
+            <p><strong>Name:</strong> ${escapeHtml(bookingData.customerName)}</p>
+            <p><strong>Email:</strong> <a href="mailto:${escapeHtml(bookingData.email)}">${escapeHtml(bookingData.email)}</a></p>
+            <p><strong>Phone:</strong> <a href="tel:${escapeHtml(bookingData.phone)}">${escapeHtml(bookingData.phone)}</a></p>
           </div>
           
           <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h2 style="color: #4F46E5; margin-top: 0;">Appointment Details</h2>
-            <p><strong>Service Type:</strong> ${bookingData.serviceType}</p>
-            <p><strong>Preferred Date:</strong> ${bookingData.preferredDate}</p>
-            <p><strong>Preferred Time:</strong> ${bookingData.preferredTime}</p>
+            <p><strong>Service Type:</strong> ${escapeHtml(bookingData.serviceType)}</p>
+            <p><strong>Preferred Date:</strong> ${escapeHtml(bookingData.preferredDate)}</p>
+            <p><strong>Preferred Time:</strong> ${escapeHtml(bookingData.preferredTime)}</p>
           </div>
           
           ${bookingData.message ? `
           <div style="background-color: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ffc107;">
             <h2 style="color: #856404; margin-top: 0;">Special Requests / Questions</h2>
-            <p style="color: #856404;">${bookingData.message}</p>
+            <p style="color: #856404;">${escapeHtml(bookingData.message)}</p>
           </div>
           ` : ''}
           
