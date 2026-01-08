@@ -2,14 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Navigation from "@/components/Navigation";
-import EmbeddedBookingForm from "@/components/EmbeddedBookingForm";
+import BookingForm from "@/components/BookingForm";
 import { MapPin, Award, Heart, Users, Clock, Shield, Phone, Mail } from "lucide-react";
-
 const About = () => {
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       <Navigation />
-
+      
       {/* Hero Section */}
       <section className="pt-16 pb-20 hero-gradient text-white">
         <div className="container mx-auto px-4 py-20">
@@ -44,14 +42,12 @@ const About = () => {
               <p className="text-lg leading-relaxed">
                 Aurosite was founded with a simple yet revolutionary idea: professional wellness treatments shouldn't require you to travel to a clinic. We believe that high-quality healthcare should be convenient, accessible, and tailored to fit your lifestyle.
               </p>
-
+              
               <p className="text-lg leading-relaxed">
                 Our mobile wellness service brings expert PRP therapy and vitamin injection treatments directly to your preferred location across Birmingham and surrounding areas. Whether you're at home, in your office, or another comfortable setting, we ensure you receive the same professional standard of care you'd expect from a traditional clinic.
               </p>
-
-              <p className="text-lg leading-relaxed">
-                We specialise in Platelet Rich Plasma (PRP) therapy and essential vitamin injections, including Biotin and B12 boosts, designed to enhance your natural beauty, improve your wellbeing, and support your body's healing processes.
-              </p>
+              
+              <p className="text-lg leading-relaxed">We specialise in Platelet Rich Plasma (PRP) therapy and essential vitamin injections, including Biotin and B12 boosts, designed to enhance your natural beauty, improve your wellbeing, and support your body's healing processes.</p>
             </div>
           </div>
         </div>
@@ -190,31 +186,15 @@ const About = () => {
         </div>
       </section>
 
-      {/* Booking Form Section */}
-      <section id="booking-form" className="py-20 bg-primary-light">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <Badge className="mb-4 bg-primary text-primary-foreground">📅 Get in Touch</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Book Your Consultation
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Ready to start your wellness journey? We're here to help
-            </p>
-          </div>
-          <EmbeddedBookingForm />
-        </div>
-      </section>
-
       {/* Contact Section */}
       <section className="py-20 hero-gradient text-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Contact Us
+              Get in Touch
             </h2>
             <p className="text-xl text-white/90 mb-8">
-              Have questions? We'd love to hear from you
+              Ready to start your wellness journey? We're here to help
             </p>
           </div>
 
@@ -230,11 +210,11 @@ const About = () => {
                 <p className="text-white/90 mb-4">
                   Speak directly with our team to discuss your needs and schedule your first treatment.
                 </p>
-                <a href="#booking-form">
+                <BookingForm defaultService="Free Consultation Only">
                   <Button size="lg" className="bg-white text-primary hover:bg-white/90 w-full">
-                    Book Free Consultation
+                    Call Now for Free Consultation
                   </Button>
-                </a>
+                </BookingForm>
               </CardContent>
             </Card>
 
@@ -249,18 +229,16 @@ const About = () => {
                 <p className="text-white/90 mb-4">
                   Send us your questions or request more information about our treatments and packages.
                 </p>
-                <a href="#booking-form">
+                <BookingForm>
                   <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary w-full">
                     Send Email Enquiry
                   </Button>
-                </a>
+                </BookingForm>
               </CardContent>
             </Card>
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default About;

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Phone } from "lucide-react";
+import BookingForm from "@/components/BookingForm";
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -49,11 +50,11 @@ const Navigation = () => {
               <Phone className="mr-2 h-4 w-4" />
               07847 485968
             </a>
-            <a href="/#booking-form">
+            <BookingForm>
               <Button size="sm" className="bg-primary hover:bg-primary/90">
                 Book Now
               </Button>
-            </a>
+            </BookingForm>
           </div>
 
           {/* Mobile menu button */}
@@ -96,11 +97,11 @@ const Navigation = () => {
                   <Phone className="mr-2 h-4 w-4" />
                   07847 485968
                 </a>
-                <a href="/#booking-form" onClick={() => setIsMenuOpen(false)}>
+                <BookingForm>
                   <Button size="sm" className="w-full bg-primary hover:bg-primary/90">
                     Book Now
                   </Button>
-                </a>
+                </BookingForm>
               </div>
             </div>
           </div>

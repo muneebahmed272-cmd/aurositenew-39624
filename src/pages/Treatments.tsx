@@ -2,18 +2,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import Navigation from "@/components/Navigation";
-import EmbeddedBookingForm from "@/components/EmbeddedBookingForm";
+import BookingForm from "@/components/BookingForm";
 import { CheckCircle, Syringe, Heart, Clock, Users, Award, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import prpImage from "@/assets/prp-treatment-new.jpg";
 import biotinImage from "@/assets/vitamin-injection-new.jpg";
 import microneedlingImage from "@/assets/microneedling-treatment.jpg";
-
 const Treatments = () => {
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       <Navigation />
-
+      
       {/* Hero Section */}
       <section className="pt-16 pb-20 hero-gradient text-white">
         <div className="container mx-auto px-4 py-20">
@@ -62,7 +60,7 @@ const Treatments = () => {
                       PRP therapy involves drawing a small amount of your blood, processing it to concentrate the platelets, and injecting it into targeted areas. The concentrated platelets release growth factors that stimulate healing and regeneration.
                     </p>
                   </div>
-
+                  
                   <div>
                     <h4 className="font-semibold text-lg mb-3">Benefits:</h4>
                     <ul className="space-y-3">
@@ -101,9 +99,9 @@ const Treatments = () => {
                 </div>
 
                 <div className="mt-auto">
-                  <a href="#booking-form">
+                  <BookingForm defaultService="PRP Therapy">
                     <Button className="w-full">Contact Now</Button>
-                  </a>
+                  </BookingForm>
                 </div>
               </CardContent>
             </Card>
@@ -135,7 +133,7 @@ const Treatments = () => {
                       Microneedling uses fine needles to create controlled micro-injuries in the skin, stimulating your body's natural collagen and elastin production for smoother, firmer, and more radiant skin.
                     </p>
                   </div>
-
+                  
                   <div>
                     <h4 className="font-semibold text-lg mb-3">Benefits:</h4>
                     <ul className="space-y-3">
@@ -164,9 +162,9 @@ const Treatments = () => {
                 </div>
 
                 <div className="mt-auto">
-                  <a href="#booking-form">
+                  <BookingForm defaultService="Microneedling">
                     <Button className="w-full">Contact Now</Button>
-                  </a>
+                  </BookingForm>
                 </div>
               </CardContent>
             </Card>
@@ -198,7 +196,7 @@ const Treatments = () => {
                       Our vitamin injections deliver essential nutrients directly into your system, bypassing the digestive system for maximum absorption and immediate benefits.
                     </p>
                   </div>
-
+                  
                   <div>
                     <h4 className="font-semibold text-lg mb-3">Benefits:</h4>
                     <ul className="space-y-3">
@@ -236,9 +234,9 @@ const Treatments = () => {
                 </div>
 
                 <div className="mt-auto">
-                  <a href="#booking-form">
+                  <BookingForm defaultService="Vitamin Injections">
                     <Button className="w-full">Contact Now</Button>
-                  </a>
+                  </BookingForm>
                 </div>
               </CardContent>
             </Card>
@@ -310,22 +308,6 @@ const Treatments = () => {
         </div>
       </section>
 
-      {/* Booking Form Section */}
-      <section id="booking-form" className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <Badge className="mb-4 bg-primary text-primary-foreground">📅 Book Now</Badge>
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Book Your Consultation
-            </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Ready to start your wellness journey? Fill in your details below
-            </p>
-          </div>
-          <EmbeddedBookingForm />
-        </div>
-      </section>
-
       {/* CTA Section */}
       <section className="py-20 hero-gradient text-white">
         <div className="container mx-auto px-4 text-center">
@@ -337,11 +319,11 @@ const Treatments = () => {
               Book your free consultation today and discover how our treatments can enhance your natural beauty
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a href="#booking-form">
+              <BookingForm defaultService="Free Consultation Only">
                 <Button size="lg" className="bg-white text-primary hover:bg-white/90 text-lg px-8 py-4">
                   Book Free Consultation
                 </Button>
-              </a>
+              </BookingForm>
               <Link to="/prices">
                 <Button size="lg" variant="outline" className="border-white hover:bg-white text-lg px-8 py-4 text-slate-950">
                   View Prices
@@ -351,8 +333,6 @@ const Treatments = () => {
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default Treatments;
