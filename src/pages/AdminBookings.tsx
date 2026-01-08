@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, LogOut, Calendar, Clock, Phone, Mail, MessageSquare } from 'lucide-react';
+import { getUserFriendlyError } from '@/lib/errorHandler';
 
 interface Booking {
   id: string;
@@ -46,7 +47,7 @@ export default function AdminBookings() {
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: error.message,
+        description: getUserFriendlyError(error),
         variant: 'destructive',
       });
     } finally {
@@ -76,7 +77,7 @@ export default function AdminBookings() {
     } catch (error: any) {
       toast({
         title: 'Error',
-        description: error.message,
+        description: getUserFriendlyError(error),
         variant: 'destructive',
       });
     }
