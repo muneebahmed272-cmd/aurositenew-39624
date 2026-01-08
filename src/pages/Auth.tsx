@@ -8,6 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
+import { getUserFriendlyError } from '@/lib/errorHandler';
 
 export default function Auth() {
   const [email, setEmail] = useState('');
@@ -31,8 +32,8 @@ export default function Auth() {
     
     if (error) {
       toast({
-        title: 'Error',
-        description: error.message,
+        title: 'Authentication Error',
+        description: getUserFriendlyError(error),
         variant: 'destructive',
       });
     } else {
@@ -53,8 +54,8 @@ export default function Auth() {
     
     if (error) {
       toast({
-        title: 'Error',
-        description: error.message,
+        title: 'Authentication Error',
+        description: getUserFriendlyError(error),
         variant: 'destructive',
       });
     } else {

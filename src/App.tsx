@@ -12,6 +12,7 @@ import Prices from "./pages/Prices";
 import Blog from "./pages/Blog";
 import Auth from "./pages/Auth";
 import AdminBookings from "./pages/AdminBookings";
+import Unauthorized from "./pages/Unauthorized";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,10 +30,11 @@ const App = () => (
           <Route path="/prices" element={<Prices />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="/unauthorized" element={<Unauthorized />} />
           <Route
             path="/admin/bookings"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute requiredRoles={['admin', 'staff']}>
                 <AdminBookings />
               </ProtectedRoute>
             }
